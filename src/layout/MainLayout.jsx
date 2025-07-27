@@ -108,14 +108,15 @@ export default function MainLayout() {
           right: 20,
         }}
         toastOptions={{
+          className: 'font-kanit text-sm',
           success: {
             style: {
-              border: "2px solid green",
+              border: "1px solid green",
             },
           },
           error: {
             style: {
-              border: "2px solid red",
+              border: "1px solid red",
             },
           },
         }}

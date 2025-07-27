@@ -1,4 +1,3 @@
-import "./Bookshelf.css";
 import React from "react";
 import {
   FaRegCircle,
@@ -26,17 +25,17 @@ export default function Bookshelf({
       <hr className="my-2 border-gray-200" />
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
         <p className="text-gray-500 font-kanit">
-          จำนวนทั้งหมด
+          จำนวน
           <span className="font-semibold"> {books.length} </span>
           รายการ
         </p>
-        <div className="flex gap-3 text-sm">
+        <div className="flex gap-1 text-sm">
           <button
             onClick={() => {
               setEditMode((prev) => !prev);
               toggleSelection(null, true); // reset selection
             }}
-            className="cursor-pointer font-semibold font-kanit px-4 py-2 rounded-lg border border-orange-500 text-orange-500 hover:bg-orange-50 transition-colors duration-150"
+            className="cursor-pointer font-kanit px-4 py-2 rounded-3xl border border-orange-500 text-orange-500 hover:bg-orange-50 transition-colors duration-150"
           >
             {editMode ? "ยกเลิก" : "แก้ไข"}
           </button>
@@ -44,9 +43,9 @@ export default function Bookshelf({
             <button
               onClick={handleBatchRemove}
               disabled={selected.length === 0}
-              className={`font-semibold font-bai px-4 py-2 rounded-lg 
+              className={`font-kanit px-4 py-2 rounded-3xl 
                 border border-orange-500 text-orange-500 
-                transition-colors duration-150
+                transition-colors duration-150 
                 ${
                   selected.length === 0
                     ? "opacity-50 cursor-auto "
@@ -54,7 +53,7 @@ export default function Bookshelf({
                 }
               `}
             >
-              <p className="flex items-center gap-2 text-xs">
+              <p className="flex items-center gap-2 text-sm ">
                 <FaTrash />
                 <span>
                   {selected.length > 0 ? `${selected.length} รายการ` : "ลบ"}
@@ -76,7 +75,7 @@ export default function Bookshelf({
             return (
               <div
                 key={book.id}
-                className={`relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col cursor-pointer border-2
+                className={`relative flex bg-white rounded-xl shadow hover:shadow-md transition cursor-pointer border-2 p-3 gap-4
                   ${
                     editMode && isSelected
                       ? "border-orange-500"
@@ -85,70 +84,72 @@ export default function Bookshelf({
                 `}
                 onClick={() => editMode && toggleSelection(book.id)}
               >
+                <div className="relative w-24 h-32 flex-shrink-0">
+                  <img
+                    src={book.cover || "/thumb.jpg"}
+                    alt={book.title}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
                 {editMode && (
-                  <div className="absolute top-2 right-2 z-20 rounded-full p-1">
+                  <div className="absolute top-1 right-1 bg-white/80 rounded-full p-1 z-10">
                     {isSelected ? (
-                      <FaCheckCircle className="text-orange-600 text-xl" />
+                      <FaCheckCircle className="text-orange-500 text-xl" />
                     ) : (
-                      <FaRegCircle className="text-orange-600 text-xl" />
+                      <FaRegCircle className="text-orange-500 text-xl" />
                     )}
                   </div>
                 )}
-                <img
-                  src={book.cover || "/thumb.jpg"}
-                  alt={book.title}
-                  className="w-full h-48 object-cover rounded-t-xl"
-                />
 
-                <div className="flex-1 flex flex-col p-4">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-1 truncate">
-                    {book.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-2 font-bai">
-                    {book.author}
-                  </p>
-                  <br></br>
-                  <p className="flex items-center gap-2 text-xs text-gray-600 mb-4 font-bai">
-                    <FaList />
-                    <span>
-                      {book.chapter}
-                      {book.description}
-                    </span>
-                  </p>
-                  <p className="flex items-center gap-2 text-xs text-gray-600 mb-4 font-bai">
-                    <FaBookmark />
-                    <span>
-                      คั่นล่าสุด{" "}
-                      {(() => {
-                        const d = new Date(book.timestamp);
-                        const months = [
-                          "ม.ค.",
-                          "ก.พ.",
-                          "มี.ค.",
-                          "เม.ย.",
-                          "พ.ค.",
-                          "มิ.ย.",
-                          "ก.ค.",
-                          "ส.ค.",
-                          "ก.ย.",
-                          "ต.ค.",
-                          "พ.ย.",
-                          "ธ.ค.",
-                        ];
-                        const day = d.getDate();
-                        const month = months[d.getMonth()];
-                        const year = (d.getFullYear() + 543)
-                          .toString()
-                          .slice(-2); // Buddhist year, last 2 digits
-                        const hour = d.getHours().toString().padStart(2, "0");
-                        const minute = d
-                          .getMinutes()
-                          .toString()
-                          .padStart(2, "0");
-                        return `${day} ${month} ${year} / ${hour}.${minute} น.`;
-                      })()}
-                    </span>
-                  </p>
+                <div className="flex flex-col flex-1 justify-between">
+                  <div>
+                    <h3 className="text-base font-semibold text-gray-800 truncate">
+                      {book.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-1 font-bai truncate">
+                      {book.author}
+                    </p>
+                    <br></br>
+                    <p className="flex flex-wrap items-center text-xs text-gray-500 gap-4 font-bai">
+                      <span className="flex items-center gap-1">
+                        <FaList />
+                        {book.chapter}
+                      </span>
+                    </p>
+                    <p className="text-xs text-gray-500 mt-3 font-bai">
+                      <span className="flex items-center gap-1">
+                        <FaBookmark />{" "}
+                        {(() => {
+                          const d = new Date(book.timestamp);
+                          const months = [
+                            "ม.ค.",
+                            "ก.พ.",
+                            "มี.ค.",
+                            "เม.ย.",
+                            "พ.ค.",
+                            "มิ.ย.",
+                            "ก.ค.",
+                            "ส.ค.",
+                            "ก.ย.",
+                            "ต.ค.",
+                            "พ.ย.",
+                            "ธ.ค.",
+                          ];
+                          const day = d.getDate();
+                          const month = months[d.getMonth()];
+                          const year = (d.getFullYear() + 543)
+                            .toString()
+                            .slice(-2);
+                          const hour = d.getHours().toString().padStart(2, "0");
+                          const minute = d
+                            .getMinutes()
+                            .toString()
+                            .padStart(2, "0");
+                          return `${day} ${month} ${year} / ${hour}.${minute} น.`;
+                        })()}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
             );
